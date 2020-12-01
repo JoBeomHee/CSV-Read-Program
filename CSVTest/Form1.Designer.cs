@@ -30,12 +30,13 @@
         {
             this.uiBtn_ReadCsv = new System.Windows.Forms.Button();
             this.uiGridView_CSV = new System.Windows.Forms.DataGridView();
+            this.uiBtn_DBInsert = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.uiGridView_CSV)).BeginInit();
             this.SuspendLayout();
             // 
             // uiBtn_ReadCsv
             // 
-            this.uiBtn_ReadCsv.Location = new System.Drawing.Point(419, 312);
+            this.uiBtn_ReadCsv.Location = new System.Drawing.Point(334, 312);
             this.uiBtn_ReadCsv.Name = "uiBtn_ReadCsv";
             this.uiBtn_ReadCsv.Size = new System.Drawing.Size(75, 56);
             this.uiBtn_ReadCsv.TabIndex = 0;
@@ -51,11 +52,21 @@
             this.uiGridView_CSV.Size = new System.Drawing.Size(482, 294);
             this.uiGridView_CSV.TabIndex = 1;
             // 
+            // uiBtn_DBInsert
+            // 
+            this.uiBtn_DBInsert.Location = new System.Drawing.Point(419, 312);
+            this.uiBtn_DBInsert.Name = "uiBtn_DBInsert";
+            this.uiBtn_DBInsert.Size = new System.Drawing.Size(75, 56);
+            this.uiBtn_DBInsert.TabIndex = 2;
+            this.uiBtn_DBInsert.Text = "DB Insert";
+            this.uiBtn_DBInsert.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(506, 375);
+            this.Controls.Add(this.uiBtn_DBInsert);
             this.Controls.Add(this.uiGridView_CSV);
             this.Controls.Add(this.uiBtn_ReadCsv);
             this.Name = "Form1";
@@ -69,6 +80,7 @@
 
         private System.Windows.Forms.Button uiBtn_ReadCsv;
         private System.Windows.Forms.DataGridView uiGridView_CSV;
+        private System.Windows.Forms.Button uiBtn_DBInsert;
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MSSQL_Connect_Program.Class;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,8 +23,39 @@ namespace CSVTest
         {
             InitializeComponent();
 
+            //이벤트 선언
+            InitEvent();
+        }
+
+        /// <summary>
+        /// 이벤트 선언 메서드
+        /// </summary>
+        private void InitEvent()
+        {
+            //Load Event
+            this.Load += FormLoad_Event;
+
             //CSV read Button Click Event
-            uiBtn_ReadCsv.Click += uiBtn_ReadCsv_Click; 
+            uiBtn_ReadCsv.Click += uiBtn_ReadCsv_Click;
+
+            //DataBase Insert Button Click Event
+            uiBtn_DBInsert.Click += uiBtn_DBInsert_Click;
+        }
+
+        /// <summary>
+        /// Form Load Event Handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormLoad_Event(object sender, EventArgs e)
+        {
+            //MSSQL DataBase 연결
+            this.Cursor = Cursors.WaitCursor;
+
+            //Connect to DB
+            ConnectDatabase();
+
+            this.Cursor = Cursors.Default;
         }
 
         /// <summary>
@@ -40,7 +72,7 @@ namespace CSVTest
             {
                 string[] fileName = Directory.GetFiles(fbd.SelectedPath); //폴더 읽어와
 
-                csvList = fileName.Where(x => x.IndexOf(".csv",StringComparison.OrdinalIgnoreCase) >= 0)
+                csvList = fileName.Where(x => x.IndexOf(".csv", StringComparison.OrdinalIgnoreCase) >= 0)
                                .Select(x => x).ToList();
 
                 try
@@ -50,6 +82,16 @@ namespace CSVTest
                 }
                 catch { }
             }
+        }
+
+        /// <summary>
+        /// DB Insert Button Click Event Handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void uiBtn_DBInsert_Click(object sender, EventArgs e)
+        {
+            DBInsert();
         }
 
         /// <summary>
@@ -75,6 +117,19 @@ namespace CSVTest
                         stuList.Add(SetData(stu, values));
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Database 연결 메서드
+        /// </summary>
+        private void ConnectDatabase()
+        {
+            if (SqlDBManager.Instance.GetConnection() == false)
+            {
+                string msg = $"Failed to Connect to Database";
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 
@@ -145,6 +200,46 @@ namespace CSVTest
                                            stuList[idx].GRADE,
                                            stuList[idx].PHONENUMBER });
             }
+        }
+
+        /// <summary>
+        /// DB Insert 메서드
+        /// </summary>
+        private void DBInsert()
+        {
+            string name = string.Empty;
+            string age = string.Empty;
+            string grade = string.Empty;
+            string phoneNumber = string.Empty;
+
+            string query = string.Empty;
+
+            for (int idx = 0; idx < stuList.Count; idx++)
+            {
+                name = stuList[idx].NAME.ToString();
+                age = stuList[idx].AGE.ToString();
+                grade = stuList[idx].GRADE.ToString();
+                phoneNumber = stuList[idx].PHONENUMBER.ToString();
+
+                query = @"
+            INSERT INTO dbo.STUDENT 
+            VALUES ('#NAME', '#AGE', '#GRADE', '#PHONENUMBER')
+            ";
+
+                query = query.Replace("#NAME", name);
+                query = query.Replace("#AGE", age);
+                query = query.Replace("#GRADE", grade);
+                query = query.Replace("#PHONENUMBER", phoneNumber);
+
+                int result = SqlDBManager.Instance.ExecuteNonQuery(query);
+
+                if (result < 0)
+                {
+                    MessageBox.Show("DB Insert 실패");
+                }
+            }
+
+            MessageBox.Show("데이터베이스 Insert 성공");
         }
     }
 
