@@ -15,6 +15,7 @@ CSV 파일 읽고, DataGridView 컨트롤에 바인딩
 ![2](https://user-images.githubusercontent.com/22911504/100705299-5072d980-33ea-11eb-9811-ef93a642df87.PNG)
 
 ## MSSQL DB Insert Success
-![3](https://user-images.githubusercontent.com/22911504/100719297-cafa2400-33ff-11eb-86e5-9058deb88654.PNG)
+![2](https://user-images.githubusercontent.com/22911504/100719380-e82ef280-33ff-11eb-9319-d20ee7b2852b.PNG)
+
 
 
